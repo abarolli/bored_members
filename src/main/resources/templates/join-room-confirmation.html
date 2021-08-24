@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Public Rooms</title>
+    <title>Document</title>
     <link rel="stylesheet" th:href="@{/css/normalize.css}">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{https://unpkg.com/aos@next/dist/aos.css}" />
@@ -99,61 +99,16 @@
             </ul>
         </section>
     </header>
+    
     <main>
-    	
-    <section class="full-viewport full-viewport--flex-column">
-        <section class="filters">
-        	<form th:action="@{/app/searchRooms/}" method="POST">
-	            <input class="user-input" type="text" placeholder="Search">    
-	            
-	            <input type="submit" hidden /> 	
-        	</form>
-        </section>
-
-        <table class="table">
-            <thead class="table__head">
-                <th class="table__head__header">Room Name</th>
-                <th class="table__head__header">Room Description</th>
-                <th class="table__head__header">Action</th>
-            </thead>
-            <tr class="table__row" th:each="room : ${rooms}">
-                <td class="table__row__data" th:text="${room.name}"></td>
-                <td class="table__row__data table__row__data__description" th:text="${room.description}"></td>
-                <td class="table__row__data">
-                	<form th:if="${!memberService.isAlreadyMemberOf(member, room)}"
-                		  th:action="@{/app/joinRoom/}" method="POST">
-	                	<button type="submit" class="btn btn--primary"
-	                		name="roomId"
-	                		th:value="${room.id}">Join</button>
-                	</form>
-                	<form th:if="${memberService.isAlreadyMemberOf(member, room)}"
-                		  th:action="@{/app/joinRoom/}" method="POST">
-	                	<button type="submit" class="btn btn--pink"
-	                		name="roomId"
-	                		th:value="${room.id}">Leave</button>
-                	</form>
-                </td>
-            </tr>
-            <tr>
-            	<td></td>
-            	<td></td>
-            	<td id="public-room-create-new">
-            		<a th:href="@{/app/createNewRoom/}" id="create-new-room-btn" class="btn btn--outline">
-            			<span>Create New Room</span>
-            		</a>
-           		</td>
-           	</tr>
-        </table>
-    </section>
     
     </main>
-    
     
     <script th:src="@{/scripts/main.js}"></script>
     <script th:src="@{/scripts/animateActions.js}"></script>
     <script th:src="@{https://unpkg.com/aos@next/dist/aos.js}"></script>
     <script>
       AOS.init();
-    </script> 
+    </script>  
 </body>
 </html>
