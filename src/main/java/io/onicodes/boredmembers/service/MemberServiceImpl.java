@@ -87,17 +87,18 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	@Transactional
-	public void joinRoom(Member member, BoredRoom room) {
+	public boolean joinRoom(Member member, BoredRoom room) {
 		
 		List<BoredRoom> memberships = member.getMemberships();
 		for (var boredroom : memberships) {
 			if (boredroom.getId() == room.getId()) {
-				return;
+				return false;
 			}
 		}
 		memberships.add(room);
 		
 		memberDao.saveMember(member);
+		return true;
 	}
 
 }
