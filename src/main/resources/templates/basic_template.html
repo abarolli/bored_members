@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/normalize.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{https://unpkg.com/aos@next/dist/aos.css}" />
+</head>
+<body class="prevent-animation">
+    <header>
+        <nav class="nav">
+            <a th:href="@{/}">
+                <div class="logo-container">
+                    <svg class="logo-container__logo" viewBox="0 0 263 148">
+                        <use th:href="@{/icons/sprite.svg#bored_members_logo}"></use>
+                    </svg>
+                    <h1 class="logo-container__heading">Bored Members</h1>
+                </div>
+            </a>
+            <svg class="icon toggler">
+                <use th:href="@{/icons/sprite.svg#menu}"></use>
+            </svg>
+        
+            <ul class="list list--inline nav__list nav__list--full-height">
+                <li class="list__item dropdown">
+                    <a th:href="@{/app/rooms/}" class="nav__list-link dropdown__header">Rooms</a>
+                    <ul class="list dropdown__content dropdown__content--bordered dropdown__content--right">
+                        <li class="dropdown__item">
+                            <a th:href="@{/app/rooms/}">
+                                <header class="dropdown__item-header">Find Rooms</header>
+                                <div class="dropdown__item-description">Find and join some public rooms</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="list__item" sec:authorize="isAuthenticated()">
+                	<a class="nav__list-link" th:href="@{/member/profile/}"
+                		th:text="${#authentication.getPrincipal().getUsername()}" ></a>
+                </li>
+                <li class="list__item logout" sec:authorize="isAuthenticated()">
+                	<form th:action="@{/logout}" method="POST">
+                		<input type="submit" class="nav__list-link" value="Logout" />
+                	</form>
+                </li>
+                <li sec:authorize="!isAuthenticated()" class="list__item">
+                    <a class="nav__list-link" th:href="@{/authentication/registerMember/}">Sign Up</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()" class="list__item">
+                    <a class="nav__list-link" th:href="@{/authentication/loginMember/}">Sign In</a>
+                </li>
+            </ul>
+        </nav>
+        <section class="side-menu side-menu--right collapsible-side-menu">
+            <header class="side-menu__header">
+                <div class="logo-container">
+                    <svg class="logo-container__logo" viewBox="0 0 263 148">
+                        <use th:href="@{/icons/sprite.svg#bored_members_logo}"></use>
+                    </svg>
+                    <h1 class="logo-container__heading">Bored Members</h1>
+                </div>
+                <svg class="icon toggler">
+                    <use th:href="@{/icons/sprite.svg#menu}"></use>
+                </svg>
+            </header>
+            <ul class="list side-menu__list">
+                <li class="list__item collapsible">
+                    <header class="collapsible__header">
+                        <h3 class="collapsible__heading">Item 1</h3>
+                        <svg class="icon chevron">
+                            <use th:href="@{/icons/sprite.svg#chevron}"></use>
+                        </svg>
+                    </header>
+                    <article class="collapsible__content">
+                        <ul class="list">
+                            <li class="list__item">Item 1</li>
+                            <li class="list__item">Item 2</li>
+                            <li class="list__item">Item 3</li>
+                        </ul>
+                    </article>
+                </li>
+                <li class="list__item collapsible">
+                    <header class="collapsible__header">
+                        <h3 class="collapsible__heading">Item 1</h3>
+                        <svg class="icon chevron">
+                            <use th:href="@{/icons/sprite.svg#chevron}"></use>
+                        </svg>
+                    </header>
+                    <article class="collapsible__content">
+                        <ul class="list">
+                            <li class="list__item">Item 1</li>
+                            <li class="list__item">Item 2</li>
+                            <li class="list__item">Item 3</li>
+                        </ul>
+                    </article>
+                </li>
+            </ul>
+        </section>
+    </header>
+    
+    <main>
+    
+    </main>
+    
+    <script th:src="@{/scripts/main.js}"></script>
+    <script th:src="@{/scripts/animateActions.js}"></script>
+    <script th:src="@{https://unpkg.com/aos@next/dist/aos.js}"></script>
+    <script>
+      AOS.init();
+    </script>  
+</body>
+</html>
