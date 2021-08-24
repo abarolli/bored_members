@@ -137,7 +137,11 @@
             <tr>
             	<td></td>
             	<td></td>
-            	<td id="public-room-create-new"><a th:href="@{/app/createNewRoom/}" class="btn btn--outline">Create New Room</a></td>
+            	<td id="public-room-create-new">
+            		<a th:href="@{/app/createNewRoom/}" id="create-new-room-btn" class="btn btn--outline">
+            			<span>Create New Room</span>
+            		</a>
+           		</td>
            	</tr>
         </table>
     </section>
