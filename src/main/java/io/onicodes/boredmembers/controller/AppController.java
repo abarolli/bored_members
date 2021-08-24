@@ -36,9 +36,12 @@ public class AppController {
 	private MemberService memberService;
 	
 	@GetMapping("/rooms")
-	public String showRooms(Model model) {
+	public String showRooms(Model model, Principal principal) {
 		
 		model.addAttribute("rooms", roomDao.getAllBoredRooms());
+		model.addAttribute("memberService", memberService);
+		model.addAttribute("member", memberService.getMemberByName(principal.getName()));
+		
 		return "public-rooms";
 	}
 	

@@ -12,4 +12,5 @@ public interface MemberService extends UserDetailsService {
 	Member getMemberByName(String username);
 	void sendMessageToRoom(Member member, String messageStr, BoredRoom room);
 	boolean joinRoom(Member member, BoredRoom room);
+	boolean isAlreadyMemberOf(Member member, BoredRoom room);
 }

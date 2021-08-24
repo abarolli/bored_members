@@ -81,8 +81,19 @@ p {
     color: #fff;
 }
 
+
 .btn--primary:hover {
     background: #31C7FF;
+}
+
+.btn--pink {
+	background: var(--color-pink);
+	border: 0;
+	color: #fff;
+}
+
+.btn--pink:hover {
+	background: hotpink;	
 }
 
 .btn--outline {

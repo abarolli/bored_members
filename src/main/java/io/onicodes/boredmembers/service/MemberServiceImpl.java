@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,6 +32,9 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private EntityManager factory;
 	
 	@Autowired
 	public MemberServiceImpl(MemberDAO memberDao, MessageDAO messageDao, BoredRoomDAO boredRoomDao) {
@@ -99,6 +104,24 @@ public class MemberServiceImpl implements MemberService {
 		
 		memberDao.saveMember(member);
 		return true;
+	}
+
+
+	@Override
+	@Transactional
+	public boolean isAlreadyMemberOf(Member member, BoredRoom room) {
+		
+		String queryStr = """
+			select m
+			from Member m
+			JOIN m.memberships mm
+			WHERE mm.id = :roomId
+		""";
+		List<Member> isAMember = factory.createQuery(queryStr, Member.class)
+					   					.setParameter("roomId", room.getId())
+				   						.getResultList();
+		
+		return !isAMember.isEmpty();
 	}
 
 }
