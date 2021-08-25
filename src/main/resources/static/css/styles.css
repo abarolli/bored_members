@@ -4,6 +4,7 @@
     --color-body: #707070;
     --color-pink: deeppink;
     --chat-input-height: 10rem;
+    --navbar-height: 7.85rem;
 }
 
 *, *::before, *::after {
@@ -114,7 +115,7 @@ p {
     text-align: center;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 810px) {
 	#create-new-room-btn span {
 		display: none;
 	}
@@ -448,7 +449,7 @@ a:active {
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 1.5rem;
-    height: 7.85rem;
+    height: var(--navbar-height);
     background: #fff;
     border-bottom: 1px solid var(--color-body);
 }
@@ -665,7 +666,8 @@ a:active {
 
 /* Tables ================================ */
 .table__head__header {
-    padding: 0 2rem 2rem 2rem;
+	padding: 0 2rem 2rem 2rem;
+    text-align: center;
 }
 
 .full-viewport {
@@ -717,7 +719,7 @@ table {
 }
 
 tr {
-    text-align: center;
+    text-align: left;
 }
 
 td {
@@ -725,8 +727,23 @@ td {
 }
 
 .chat-table {
+	border: 1px solid red;
     position: fixed;
+    padding: 2rem;
     bottom: var(--chat-input-height);
+    display: block;
+    overflow-y: scroll;
+    height: calc(100% - (var(--navbar-height) + var(--chat-input-height)));
+    border-spacing: 0 2rem;
+}
+
+.chat-message {
+	display: inline-block;
+    max-width: 90%;
+    overflow-wrap: anywhere;
+    border: 1px solid red;
+    padding: 1.5rem;
+    border-radius: 20px;
 }
 
 #chat-input {

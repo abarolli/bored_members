@@ -77,6 +77,16 @@ public class AppController {
 		return "join-room-confirmation";
 	}
 	
+	@PostMapping("/leaveRoom")
+	public String leaveRoom(@RequestParam("roomId") String id, Principal principal) {
+		int intId = Integer.parseInt(id);
+		Member member = memberService.getMemberByName(principal.getName());
+		BoredRoom room = roomService.getBoredRoomById(intId);
+		System.out.println(member.getUsername() + " " + room.getName());
+		memberService.leaveRoom(member, room);
+		return "leave-room-confirmation";
+	}
+	
 	@GetMapping("/rooms/{id}")
 	public String enterRoom(Model model, @PathVariable("id") Integer id) {
 		BoredRoom room = roomService.getBoredRoomById(id);

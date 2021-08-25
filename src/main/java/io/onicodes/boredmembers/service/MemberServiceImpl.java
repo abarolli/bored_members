@@ -110,6 +110,17 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	@Transactional
+	public void leaveRoom(Member member, BoredRoom room) {
+		
+		List<BoredRoom> memberships = member.getMemberships();
+		memberships.removeIf(memberRoom -> memberRoom.getId() == room.getId());
+		
+		memberDao.saveMember(member);
+	}
+
+
+	@Override
+	@Transactional
 	public boolean isAlreadyMemberOf(Member member, BoredRoom room) {
 		
 		String queryStr = """

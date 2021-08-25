@@ -121,7 +121,7 @@
                 <td th:attr="data-id=${room.id}" class="table__row__data table__row__data__description" th:text="${room.description}"></td>
                 <td class="table__row__data">
                 	<form th:if="${memberService.isAlreadyMemberOf(member, room)}"
-                		  th:action="@{/app/joinRoom/}" method="POST">
+                		  th:action="@{/app/leaveRoom/}" method="POST">
 	                	<button type="submit" class="btn btn--pink"
 	                		name="roomId"
 	                		th:value="${room.id}">Leave</button>
