@@ -117,21 +117,22 @@
                 <th class="table__head__header">Action</th>
             </thead>
             <tr class="table__row" th:each="room : ${rooms}">
-                <td class="table__row__data" th:text="${room.name}"></td>
-                <td class="table__row__data table__row__data__description" th:text="${room.description}"></td>
+                <td th:attr="data-id=${room.id}" class="table__row__data" th:text="${room.name}"></td>
+                <td th:attr="data-id=${room.id}" class="table__row__data table__row__data__description" th:text="${room.description}"></td>
                 <td class="table__row__data">
-                	<form th:if="${!memberService.isAlreadyMemberOf(member, room)}"
-                		  th:action="@{/app/joinRoom/}" method="POST">
-	                	<button type="submit" class="btn btn--primary"
-	                		name="roomId"
-	                		th:value="${room.id}">Join</button>
-                	</form>
                 	<form th:if="${memberService.isAlreadyMemberOf(member, room)}"
                 		  th:action="@{/app/joinRoom/}" method="POST">
 	                	<button type="submit" class="btn btn--pink"
 	                		name="roomId"
 	                		th:value="${room.id}">Leave</button>
                 	</form>
+                	<form th:if="${!memberService.isAlreadyMemberOf(member, room)}"
+                		  th:action="@{/app/joinRoom/}" method="POST">
+	                	<button type="submit" class="btn btn--primary"
+	                		name="roomId"
+	                		th:value="${room.id}">Join</button>
+                	</form>
+                	
                 </td>
             </tr>
             <tr>

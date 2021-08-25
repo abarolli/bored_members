@@ -20,3 +20,18 @@ sideMenuTogglers.forEach(toggler => {
         docBody.classList.toggle("inactive");
     });
 });
+
+
+// Public rooms script ===================================================
+
+console.log(location.href)
+let tableData = document.querySelectorAll(".table__row__data");
+tableData.forEach(datum => {
+	datum.addEventListener("click", e => {
+		let currentLocation = location.href;
+		if (currentLocation.endsWith("/"))
+			location.href = currentLocation + datum.dataset.id;
+		else
+			location.href = currentLocation + "/" + datum.dataset.id;
+	});	
+});

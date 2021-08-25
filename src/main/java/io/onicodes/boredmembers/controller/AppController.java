@@ -72,4 +72,10 @@ public class AppController {
 		memberService.joinRoom(member, room);
 		return "join-room-confirmation";
 	}
+	
+	@GetMapping("/rooms/{id}")
+	public String enterRoom(Model model) {
+		
+		return "chat-room";
+	}
 }

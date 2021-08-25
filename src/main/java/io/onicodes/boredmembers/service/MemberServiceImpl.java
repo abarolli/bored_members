@@ -115,10 +115,11 @@ public class MemberServiceImpl implements MemberService {
 			select m
 			from Member m
 			JOIN m.memberships mm
-			WHERE mm.id = :roomId
+			WHERE mm.id = :roomId and m.id = :memberId
 		""";
 		List<Member> isAMember = factory.createQuery(queryStr, Member.class)
 					   					.setParameter("roomId", room.getId())
+					   					.setParameter("memberId", member.getId())
 				   						.getResultList();
 		
 		return !isAMember.isEmpty();
