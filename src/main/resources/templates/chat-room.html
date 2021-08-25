@@ -8,6 +8,9 @@
     <link rel="stylesheet" th:href="@{/css/normalize.css}">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{https://unpkg.com/aos@next/dist/aos.css}" />
+    
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 </head>
 <body class="prevent-animation">
     <header>
@@ -100,9 +103,13 @@
         </section>
     </header>
     
-    <main>
-    	
-    </main>
+    <table class="chat-table">
+    	<tr th:each="message : ${messages}">
+    		<td th:text="${message.contents}"></td>
+    	</tr>
+    </table>
+
+    <textarea name="chat-input" id="chat-input" placeholder="Type here" ></textarea>
     
     <script th:src="@{/scripts/main.js}"></script>
     <script th:src="@{/scripts/chat-script.js}"></script>

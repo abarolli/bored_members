@@ -45,9 +45,8 @@ public class MessageDAOImpl implements MessageDAO {
         
         if (message != null) {
         	Session session = factory.unwrap(Session.class);
-//        	session.beginTransaction();
+        	
         	session.saveOrUpdate(message);  
-//        	session.getTransaction().commit();
         }
     }
 

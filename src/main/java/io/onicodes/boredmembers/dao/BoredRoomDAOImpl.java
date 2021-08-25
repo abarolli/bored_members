@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.onicodes.boredmembers.entity.BoredRoom;
+import io.onicodes.boredmembers.entity.Message;
 import io.onicodes.boredmembers.model.BoredRoomModel;
 
 @Repository
@@ -33,6 +34,13 @@ public class BoredRoomDAOImpl implements BoredRoomDAO {
 		return session.createQuery(queryStr, BoredRoom.class).getResultList();
 	}
 
+    @Override
+    @Transactional
+    public List<Message> getAllMessages(BoredRoom room) {
+    	
+    	return room.getMessages();
+    }
+    
     
 	@Override
 	public void saveRoom(BoredRoomModel room) {
@@ -45,14 +53,11 @@ public class BoredRoomDAOImpl implements BoredRoomDAO {
     public BoredRoom getBoredRoomById(int id) {
         
         Session session = factory.unwrap(Session.class);
-//        session.beginTransaction();
         BoredRoom room = session.get(BoredRoom.class, id);
-//        session.getTransaction().commit();
         return room;
     }
 
     @Override
-    @Transactional
     public void saveRoom(BoredRoom room) {
 
         if (room != null) {
@@ -60,7 +65,16 @@ public class BoredRoomDAOImpl implements BoredRoomDAO {
         	session.saveOrUpdate(room);
         }
     }
-
+    
+    @Override
+    public void updateRoom(BoredRoom room) {
+    	
+    	if (room != null) {
+    		Session session = factory.unwrap(Session.class);
+    		session.update(room);
+    	}
+    }
+    
 	@Override
 	public List<BoredRoom> getBoredRoomsByName(String name) {
 		

@@ -53,12 +53,20 @@ public class MemberDAOImpl implements MemberDAO {
         
         if (member != null) {
         	Session session = factory.unwrap(Session.class);
-//        	session.beginTransaction();
         	session.saveOrUpdate(member);
-//        	session.getTransaction().commit();
         }
     }
-
+    
+    @Override
+    public void updateMember(Member member) {
+    	
+    	if (member != null) {
+    		Session session = factory.unwrap(Session.class);
+    		session.update(member);
+    	}
+    		
+    }
+    
 	@Override
 	public void deleteMember(Member member) {
 		

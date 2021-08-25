@@ -88,6 +88,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		Message message = new Message(messageStr, member, room, new Date());
 		messageDao.saveMessage(message);
+		System.out.println(message.getContents());
 	}
 
 	@Override

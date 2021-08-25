@@ -3,6 +3,7 @@
     --color-button: #070471;
     --color-body: #707070;
     --color-pink: deeppink;
+    --chat-input-height: 10rem;
 }
 
 *, *::before, *::after {
@@ -705,4 +706,34 @@ a:active {
 
 #public-room-create-new {
 	padding-top: 2rem;
+}
+
+
+
+/* Chat rooms ====================================== */
+
+table {
+    width: 100%;
+}
+
+tr {
+    text-align: center;
+}
+
+td {
+    padding: 1rem;
+}
+
+.chat-table {
+    position: fixed;
+    bottom: var(--chat-input-height);
+}
+
+#chat-input {
+    resize: none;
+    height: var(--chat-input-height);
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    padding: 2rem;
 }

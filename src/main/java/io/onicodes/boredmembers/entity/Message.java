@@ -32,19 +32,11 @@ public class Message {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTime;
 
-    @ManyToOne(cascade={
-        CascadeType.MERGE,
-        CascadeType.PERSIST,
-        CascadeType.REFRESH
-    }, fetch=FetchType.LAZY)
+    @ManyToOne(cascade=CascadeType.REFRESH, fetch=FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
 
-    @ManyToOne(cascade={
-        CascadeType.MERGE,
-        CascadeType.PERSIST,
-        CascadeType.REFRESH
-    }, fetch=FetchType.LAZY)
+    @ManyToOne(cascade=CascadeType.REFRESH, fetch=FetchType.LAZY)
     @JoinColumn(name="room_id")
     private BoredRoom room;
                                  

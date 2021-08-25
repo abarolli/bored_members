@@ -8,6 +8,6 @@ public interface MemberDAO {
     Member getMemberByName(String username);
     
     void deleteMember(Member member);
-
+    void updateMember(Member member);
     void saveMember(Member member);
 }
