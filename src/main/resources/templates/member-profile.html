@@ -13,26 +13,27 @@
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 </head>
 <body class="prevent-animation">
-    <header th:replace="basic_template :: main_header (member=${member})"></header>
-    
-    <table class="chat-table container container--center">
-    	<tr th:each="message : ${messages}">
-    		<td class="chat-message" th:inline="text">
-    			<span class="chat-message__author">[[${message.member.avatarName}]]</span>
-    			<br>
-    			<span class="chat-message__content">[[${message.contents}]]</span>
-    		</td>
-    	</tr>
-    </table>
-
-    <textarea name="chat-input" id="chat-input" placeholder="Type here" ></textarea>
-    
-    <script th:src="@{/scripts/main.js}"></script>
-    <script th:src="@{/scripts/chat-script.js}"></script>
+	
+	<header th:include="basic_template :: main_header (member=${member})"></header>
+	
+	<section class="grid grid--1x2 container container--center profile-controls">
+		<section style="border: 1px solid blue" class="profile-controls__controls">
+			<h2>Subscriptions</h2>
+			<ul th:replace="basic_template :: subscription-list"></ul>
+		</section>
+		<table class="chat-table profile-chat-table">
+	    	
+    	</table>
+	</section>
+	
+	<textarea name="chat-input" id="chat-input" placeholder="Type here" ></textarea>
+	
+	<script th:src="@{/scripts/chat-script-profile.js}"></script>
+	<script th:src="@{/scripts/main.js}"></script>
     <script th:src="@{/scripts/animateActions.js}"></script>
     <script th:src="@{https://unpkg.com/aos@next/dist/aos.js}"></script>
     <script>
       AOS.init();
-    </script>  
+    </script>
 </body>
 </html>

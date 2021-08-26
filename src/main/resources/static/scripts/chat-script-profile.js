@@ -1,13 +1,39 @@
 
-const roomId = location.href[location.href.length - 1];
-let socket = new SockJS("/boredmembers_chatsocket");
-stompClient = Stomp.over(socket);
-stompClient.connect({}, function (frame) {
-	console.log("Connected!!!");
-	stompClient.subscribe("/app/rooms/" + roomId, function (message) {
-		displayMessage(JSON.parse(message.body));
-	});
-});
+function connect(roomId) {
+	let socket = new SockJS("/boredmembers_chatsocket");
+	stompClient = Stomp.over(socket);
+	stompClient.connect({}, function (frame) {
+		console.log("Connected!!!");
+		stompClient.subscribe("/app/rooms/" + roomId, function (message) {
+			displayMessage(JSON.parse(message.body));
+		});
+	});	
+}
+
+let profileSubscriptionsList = 
+	document.querySelector(".profile-controls__controls #subscription-content");
+console.log(profileSubscriptionsList);
+
+let currentRoomId;
+for (let sub of profileSubscriptionsList.children) {
+	sub.addEventListener("click", e => {
+		e.preventDefault();
+		let targetId = e.target.dataset.id;
+		if (currentRoomId != targetId) {
+			connect(targetId);
+			
+			fetch("/profile/api/room/" + targetId, {
+				method: "GET"
+			})
+			.then(response => response.json())
+			.then(messages => {
+				for (let message of messages)
+					displayMessage(message);
+			});			
+		}
+		currentRoomId = targetId;
+	})
+}
 
 
 let chatTable = document.querySelector(".chat-table");
@@ -34,7 +60,7 @@ chatInput.addEventListener("keypress", e => {
 	if (e.key == "Enter") {
 		e.preventDefault();
 		stompClient.send(
-			"/boredrooms/chat/" + roomId, 
+			"/boredrooms/chat/" + currentRoomId, 
 			{}, 
 			JSON.stringify({"content" : chatInput.value})
 		);

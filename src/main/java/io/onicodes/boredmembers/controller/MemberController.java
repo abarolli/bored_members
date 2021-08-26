@@ -6,32 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.onicodes.boredmembers.entity.Member;
 import io.onicodes.boredmembers.service.MemberService;
 
 @Controller
-public class HomeController {
-	
-	@Autowired
+@RequestMapping("/member")
+public class MemberController {
+
 	private MemberService memberService;
 	
-	@GetMapping("/")
-	public String home(Principal principal, Model model) {
-		
-		if (principal != null) {
-			Member member = memberService.getMemberByName(principal.getName());
-			model.addAttribute("member", member);
-		}
-		else
-			model.addAttribute("member", null);
-		
-		return "index";
+	@Autowired
+	public MemberController(MemberService memberService) {
+		this.memberService = memberService;
 	}
-	
-	@GetMapping("/about")
-	public String about() {
+
+	@GetMapping("/profile")
+	public String getProfile(Model model, Principal principal) {
 		
-		return "about";
+		Member member = memberService.getMemberByName(principal.getName());
+		model.addAttribute("member", member);
+		return "member-profile";
 	}
 }

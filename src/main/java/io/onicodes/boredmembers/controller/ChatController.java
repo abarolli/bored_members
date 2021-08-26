@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import io.onicodes.boredmembers.entity.BoredRoom;
 import io.onicodes.boredmembers.entity.Member;
 import io.onicodes.boredmembers.entity.Message;
+import io.onicodes.boredmembers.messagemodels.AuthoredChatMessage;
 import io.onicodes.boredmembers.messagemodels.ChatMessage;
 import io.onicodes.boredmembers.service.BoredRoomService;
 import io.onicodes.boredmembers.service.MemberService;
@@ -27,7 +28,7 @@ public class ChatController {
 	
 	@MessageMapping("/chat/{roomId}")
 	@SendTo("/app/rooms/{roomId}")
-	public ChatMessage chatToRoom(
+	public AuthoredChatMessage chatToRoom(
 			@DestinationVariable("roomId") Integer roomId, 
 			ChatMessage message,
 			Principal principal) {
@@ -36,6 +37,6 @@ public class ChatController {
 		Member member = memberService.getMemberByName(principal.getName());
 		
 		memberService.sendMessageToRoom(member, message.getContent(), room);
-		return message;
+		return new AuthoredChatMessage(member.getAvatarName(), message.getContent());
 	}
 }

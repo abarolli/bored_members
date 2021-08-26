@@ -10,101 +10,14 @@
     <link rel="stylesheet" th:href="@{https://unpkg.com/aos@next/dist/aos.css}" />
 </head>
 <body class="prevent-animation">
-    <header>
-        <nav class="nav">
-            <a th:href="@{/}">
-                <div class="logo-container">
-                    <svg class="logo-container__logo" viewBox="0 0 263 148">
-                        <use th:href="@{/icons/sprite.svg#bored_members_logo}"></use>
-                    </svg>
-                    <h1 class="logo-container__heading">Bored Members</h1>
-                </div>
-            </a>
-            <svg class="icon toggler">
-                <use th:href="@{/icons/sprite.svg#menu}"></use>
-            </svg>
-        
-            <ul class="list list--inline nav__list nav__list--full-height">
-                <li class="list__item dropdown">
-                    <a th:href="@{/app/rooms/}" class="nav__list-link dropdown__header">Rooms</a>
-                    <ul class="list dropdown__content dropdown__content--bordered dropdown__content--right">
-                        <li class="dropdown__item">
-                            <a th:href="@{/app/rooms/}">
-                                <header class="dropdown__item-header">Find Rooms</header>
-                                <div class="dropdown__item-description">Find and join some public rooms</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="list__item" sec:authorize="isAuthenticated()">
-                	<a class="nav__list-link" th:href="@{/member/profile/}"
-                		th:text="${#authentication.getPrincipal().getUsername()}" ></a>
-                </li>
-                <li class="list__item logout" sec:authorize="isAuthenticated()">
-                	<form th:action="@{/logout}" method="POST">
-                		<input type="submit" class="nav__list-link" value="Logout" />
-                	</form>
-                </li>
-                <li sec:authorize="!isAuthenticated()" class="list__item">
-                    <a class="nav__list-link" th:href="@{/authentication/registerMember/}">Sign Up</a>
-                </li>
-                <li sec:authorize="!isAuthenticated()" class="list__item">
-                    <a class="nav__list-link" th:href="@{/authentication/loginMember/}">Sign In</a>
-                </li>
-            </ul>
-        </nav>
-        <section class="side-menu side-menu--right collapsible-side-menu">
-            <header class="side-menu__header">
-                <div class="logo-container">
-                    <svg class="logo-container__logo" viewBox="0 0 263 148">
-                        <use th:href="@{/icons/sprite.svg#bored_members_logo}"></use>
-                    </svg>
-                    <h1 class="logo-container__heading">Bored Members</h1>
-                </div>
-                <svg class="icon toggler">
-                    <use th:href="@{/icons/sprite.svg#menu}"></use>
-                </svg>
-            </header>
-            <ul class="list side-menu__list">
-                <li class="list__item collapsible">
-                    <header class="collapsible__header">
-                        <h3 class="collapsible__heading">Item 1</h3>
-                        <svg class="icon chevron">
-                            <use th:href="@{/icons/sprite.svg#chevron}"></use>
-                        </svg>
-                    </header>
-                    <article class="collapsible__content">
-                        <ul class="list">
-                            <li class="list__item">Item 1</li>
-                            <li class="list__item">Item 2</li>
-                            <li class="list__item">Item 3</li>
-                        </ul>
-                    </article>
-                </li>
-                <li class="list__item collapsible">
-                    <header class="collapsible__header">
-                        <h3 class="collapsible__heading">Item 1</h3>
-                        <svg class="icon chevron">
-                            <use th:href="@{/icons/sprite.svg#chevron}"></use>
-                        </svg>
-                    </header>
-                    <article class="collapsible__content">
-                        <ul class="list">
-                            <li class="list__item">Item 1</li>
-                            <li class="list__item">Item 2</li>
-                            <li class="list__item">Item 3</li>
-                        </ul>
-                    </article>
-                </li>
-            </ul>
-        </section>
-    </header>
+    <header th:include="basic_template :: main_header (member=${member})"></header>
+    
     <main>
     	
     <section class="full-viewport full-viewport--flex-column">
         <section class="filters">
         	<form th:action="@{/app/searchRooms/}" method="POST">
-	            <input class="user-input" type="text" placeholder="Search">    
+	            <input class="user-input" type="text" placeholder="Search">  
 	            
 	            <input type="submit" hidden /> 	
         	</form>
@@ -119,20 +32,11 @@
             <tr class="table__row" th:each="room : ${rooms}">
                 <td th:attr="data-id=${room.id}" class="table__row__data" th:text="${room.name}"></td>
                 <td th:attr="data-id=${room.id}" class="table__row__data table__row__data__description" th:text="${room.description}"></td>
-                <td class="table__row__data">
-                	<form th:if="${memberService.isAlreadyMemberOf(member, room)}"
-                		  th:action="@{/app/leaveRoom/}" method="POST">
-	                	<button type="submit" class="btn btn--pink"
-	                		name="roomId"
-	                		th:value="${room.id}">Leave</button>
+                <td class="td--center">
+                	<form class="join-leave-form" th:action="." method="POST" >
+		               	<button th:if="${memberService.isAlreadyMemberOf(member, room)}" class="join-leave-btn leave-btn btn btn--pink" th:attr="data-id=${room.id}">Leave</button>
+		               	<button th:if="${!memberService.isAlreadyMemberOf(member, room)}" class="join-leave-btn join-btn btn btn--primary" th:attr="data-id=${room.id}">Join</button>
                 	</form>
-                	<form th:if="${!memberService.isAlreadyMemberOf(member, room)}"
-                		  th:action="@{/app/joinRoom/}" method="POST">
-	                	<button type="submit" class="btn btn--primary"
-	                		name="roomId"
-	                		th:value="${room.id}">Join</button>
-                	</form>
-                	
                 </td>
             </tr>
             <tr>
@@ -148,7 +52,6 @@
     </section>
     
     </main>
-    
     
     <script th:src="@{/scripts/main.js}"></script>
     <script th:src="@{/scripts/animateActions.js}"></script>

@@ -10,6 +10,8 @@
     <link rel="stylesheet" th:href="@{https://unpkg.com/aos@next/dist/aos.css}" />
 </head>
 <body>
+	<nav th:replace="basic_template :: isolated_logo_nav"></nav>
+	
     <section class="form full-viewport--center">
 	    <form th:action="@{/authentication/authenticateMember}"
     	      th:object="${member}" method="POST" >

@@ -21,9 +21,11 @@
 }
 
 @media screen and (min-width: 768px) {
+	/*
     .inactive::before {
         display: none;
     }
+    */
 }
 
 .prevent-animation * {
@@ -313,7 +315,7 @@ a:active {
     position: fixed;
     z-index: 100;
     height: 100%;
-    width: 50%;
+    width: 37rem;
     top: 0;
     padding: 1rem 1.5rem;
     background: #fff;
@@ -346,9 +348,11 @@ a:active {
 
 
 @media screen and (min-width: 768px) {
+	/*
     .side-menu {
         display: none;
     }
+    */
 }
 
 @media screen and (max-width: 650px) {
@@ -458,6 +462,12 @@ a:active {
     display: none;
 }
 
+.nav__list-grouping {
+	display: inline-flex;
+    align-items: center;
+    height: 100%;
+}
+
 .nav__list .list__item {
 	padding: 0 1rem;
     transition: all 0.3s;
@@ -471,25 +481,24 @@ a:active {
 .nav__list .list__item:hover .nav__list-link {
 	color: white;
 	cursor: pointer;
+	
+}
+
+.nav__list--full-height {
+	margin: 0;
+	height: 100%;
+}
+
+.nav__list--full-height .list__item {
+	height: 100%;
+	display: inline-flex;
+	align-items: center;
 }
 
 @media screen and (min-width: 768px) {
-    .toggler {
-        display: none;
-    }
 
     .nav__list {
         display: initial;
-    }
-
-    .nav__list--full-height {
-        height: 100%;
-    }
-
-    .nav__list--full-height .list__item {
-        height: 100%;
-        display: inline-flex;
-        align-items: center;
     }
 }
 
@@ -670,6 +679,10 @@ a:active {
     text-align: center;
 }
 
+.td--center {
+	text-align: center;
+}
+
 .full-viewport {
     height: 100%;
     display: flex;
@@ -728,7 +741,7 @@ td {
 
 .chat-table {
 	border: 1px solid red;
-    position: fixed;
+    
     padding: 2rem;
     bottom: var(--chat-input-height);
     display: block;
@@ -742,8 +755,9 @@ td {
     max-width: 90%;
     overflow-wrap: anywhere;
     border: 1px solid red;
-    padding: 1.5rem;
     border-radius: 20px;
+    padding: 0.5rem 2rem;
+    color: #000000;
 }
 
 #chat-input {
@@ -753,4 +767,31 @@ td {
     position: fixed;
     bottom: 0;
     padding: 2rem;
+}
+
+
+
+/* PROFILE ================================= */
+.profile-chat-table {
+	height: 100%;
+}
+
+.profile-controls__controls {
+	height: 100%;
+	padding: 3rem;
+}
+
+.profile-controls__controls .list__item {
+	padding-bottom: 1rem;
+}
+
+.profile-controls {
+	height: calc(100% - (var(--navbar-height) + var(--chat-input-height)));
+}
+
+
+/* Chat room messages ================================== */
+.chat-message__author {
+	font-size: 1rem;
+	color: grey;
 }

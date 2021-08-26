@@ -51,9 +51,10 @@ public class AppController {
 	
 	
 	@GetMapping("/createNewRoom")
-	public String showCreateRoomForm(Model model) {
+	public String showCreateRoomForm(Model model, Principal principal) {
 		
 		model.addAttribute("room", new BoredRoomModel());
+		model.addAttribute("member", memberService.getMemberByName(principal.getName()));
 		return "create-room-form";
 	}
 	
@@ -68,31 +69,13 @@ public class AppController {
 		response.sendRedirect(request.getContextPath() + "/app/rooms/");
 	}
 	
-	@PostMapping("/joinRoom")
-	public String joinRoom(@RequestParam("roomId") String id, Principal principal) {
-		int intId = Integer.parseInt(id);
-		Member member = memberService.getMemberByName(principal.getName());
-		BoredRoom room = roomService.getBoredRoomById(intId);
-		memberService.joinRoom(member, room);
-		return "join-room-confirmation";
-	}
-	
-	@PostMapping("/leaveRoom")
-	public String leaveRoom(@RequestParam("roomId") String id, Principal principal) {
-		int intId = Integer.parseInt(id);
-		Member member = memberService.getMemberByName(principal.getName());
-		BoredRoom room = roomService.getBoredRoomById(intId);
-		System.out.println(member.getUsername() + " " + room.getName());
-		memberService.leaveRoom(member, room);
-		return "leave-room-confirmation";
-	}
-	
 	@GetMapping("/rooms/{id}")
-	public String enterRoom(Model model, @PathVariable("id") Integer id) {
+	public String enterRoom(Model model, @PathVariable("id") Integer id, Principal principal) {
 		BoredRoom room = roomService.getBoredRoomById(id);
 		model.addAttribute("messages", roomService.getAllMessages(room));
+		model.addAttribute("member", memberService.getMemberByName(principal.getName()));
 		
 		return "chat-room";
 	}
-
+	
 }
