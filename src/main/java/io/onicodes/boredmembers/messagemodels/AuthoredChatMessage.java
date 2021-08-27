@@ -4,8 +4,8 @@ public class AuthoredChatMessage extends ChatMessage {
 	
 	private String author;
 
-	public AuthoredChatMessage(String author, String message) {
-		super(message);
+	public AuthoredChatMessage(String author, String message, Integer id) {
+		super(id, message);
 		this.author = author;
 	}
 

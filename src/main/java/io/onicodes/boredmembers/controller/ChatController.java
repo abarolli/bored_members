@@ -37,6 +37,6 @@ public class ChatController {
 		Member member = memberService.getMemberByName(principal.getName());
 		
 		memberService.sendMessageToRoom(member, message.getContent(), room);
-		return new AuthoredChatMessage(member.getAvatarName(), message.getContent());
+		return new AuthoredChatMessage(member.getAvatarName(), message.getContent(), message.getId());
 	}
 }

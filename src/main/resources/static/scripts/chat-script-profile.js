@@ -65,8 +65,14 @@ for (let sub of profileSubscriptionsList.children) {
 
 function displayMessage(message, currentAvatar) {
 	let newMessage = chatTable.insertRow().insertCell();
-	if (currentAvatar == message.author)
+	if (currentAvatar == message.author) {
 		newMessage.classList.add("owner-chat");
+		let trashUi = document.createElement("span");
+		trashUi.classList.add("chat-message__trash-icon");
+		trashUi.setAttribute("data-id", message.id);
+		trashUi.addEventListener("click", deleteMessage);
+		newMessage.appendChild(trashUi);	
+	}
 		
 	newMessage.classList.add("chat-message")
 	let author = document.createElement("span");
@@ -96,3 +102,41 @@ chatInput.addEventListener("keypress", e => {
 		chatInput.value = "";
 	}
 })
+
+
+
+
+// DELETE MESSAGE FUNCTIONALITY =================================
+
+function urlEncodeFormData(data) {
+	let formPayload = [];
+	for (let property in data) {
+		let encodedKey = encodeURIComponent(property);
+		let encodedValue = encodeURIComponent(data[property]);
+		formPayload.push(encodedKey + "=" + encodedValue);
+	}
+	formPayload = formPayload.join("&");
+	return formPayload;
+}
+
+let csrf = document.querySelector(".profile-controls__table-container")
+                   .querySelector(".chat-form")
+                   .firstElementChild.value;
+console.log(csrf);
+function deleteMessage(e) {
+	let messageId = e.target.dataset.id;
+	fetch("/chat/api/deleteMessage", {
+		method: 'POST',
+		body: urlEncodeFormData({
+			"_csrf": csrf,
+			"messageId": messageId
+		}),
+		headers: {
+			"Content-Type": "application/x-www-form-urlencoded"
+		}
+	}).catch(ex => console.log(ex));
+	
+	// call to parentElement twice to remove entire row <tr>
+	let chatMessage = e.target.parentElement.parentElement;
+	chatMessage.remove();
+}

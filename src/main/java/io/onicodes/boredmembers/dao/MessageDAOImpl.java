@@ -64,10 +64,15 @@ public class MessageDAOImpl implements MessageDAO {
 	
 		if (message != null) {
 			Session session = factory.unwrap(Session.class);
-//			session.beginTransaction();
 			session.delete(message);
-//			session.getTransaction().commit();
 		}
+	}
+
+	@Override
+	public void deleteMessage(int id) {
 		
+		Session session = factory.unwrap(Session.class);
+		Message message = session.get(Message.class, id);
+		session.delete(message);
 	}
 }

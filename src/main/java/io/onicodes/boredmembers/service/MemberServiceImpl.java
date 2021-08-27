@@ -91,6 +91,7 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println(message.getContents());
 	}
 
+
 	@Override
 	@Transactional
 	public boolean joinRoom(Member member, BoredRoom room) {

@@ -16,5 +16,7 @@ public interface MessageDAO {
     
     void deleteMessage(Message message);
     
+    void deleteMessage(int id);
+    
     void saveMessage(Message message);
 }

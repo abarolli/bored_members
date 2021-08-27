@@ -31,7 +31,11 @@ public class ProfileRestController {
 		
 		List<AuthoredChatMessage> authoredMessages = new ArrayList<>();
 		for (var message : messages) {
-			authoredMessages.add(new AuthoredChatMessage(message.getMember().getAvatarName(), message.getContents()));
+			authoredMessages.add(
+					new AuthoredChatMessage(
+							message.getMember().getAvatarName(),
+							message.getContents(),
+							message.getId()));
 		}
 		return authoredMessages;
 	}

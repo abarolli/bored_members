@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import io.onicodes.boredmembers.entity.BoredRoom;
 import io.onicodes.boredmembers.entity.Member;
+import io.onicodes.boredmembers.entity.Message;
 import io.onicodes.boredmembers.model.MemberModel;
 
 public interface MemberService extends UserDetailsService {
