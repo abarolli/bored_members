@@ -15,9 +15,16 @@
 <body class="prevent-animation">
     <header th:replace="basic_template :: main_header (member=${member})"></header>
     
+    <div hidden class="user-avatar-name" th:text="${member.avatarName}"></div>
+    
     <table class="chat-table container container--center">
     	<tr th:each="message : ${messages}">
-    		<td class="chat-message" th:inline="text">
+    		<td th:if="${message.member.username == #authentication.principal.username}" class="chat-message owner-chat" th:inline="text">
+    			<span class="chat-message__author">[[${message.member.avatarName}]]</span>
+    			<br>
+    			<span class="chat-message__content">[[${message.contents}]]</span>
+    		</td>
+    		<td th:if="${message.member.username != #authentication.principal.username}" class="chat-message" th:inline="text">
     			<span class="chat-message__author">[[${message.member.avatarName}]]</span>
     			<br>
     			<span class="chat-message__content">[[${message.contents}]]</span>

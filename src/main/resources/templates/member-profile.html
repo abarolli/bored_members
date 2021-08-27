@@ -16,14 +16,19 @@
 	
 	<header th:include="basic_template :: main_header (member=${member})"></header>
 	
+	<div hidden class="user-avatar-name" th:text="${member.avatarName}"></div>
+	
 	<section class="grid grid--1x2 container container--center profile-controls">
-		<section style="border: 1px solid blue" class="profile-controls__controls">
+		<section class="profile-controls__controls">
 			<h2>Subscriptions</h2>
 			<ul th:replace="basic_template :: subscription-list"></ul>
 		</section>
-		<table class="chat-table profile-chat-table">
-	    	
-    	</table>
+		<section class="profile-controls__table-container">
+			<header class="current-room"></header>
+			<table class="chat-table profile-chat-table">
+			
+	    	</table>
+		</section>
 	</section>
 	
 	<textarea name="chat-input" id="chat-input" placeholder="Type here" ></textarea>

@@ -1,18 +1,24 @@
 
+let currentUserAvatar = document.querySelector(".user-avatar-name").innerText;
 const roomId = location.href[location.href.length - 1];
+
 let socket = new SockJS("/boredmembers_chatsocket");
 stompClient = Stomp.over(socket);
 stompClient.connect({}, function (frame) {
 	console.log("Connected!!!");
 	stompClient.subscribe("/app/rooms/" + roomId, function (message) {
-		displayMessage(JSON.parse(message.body));
+		displayMessage(JSON.parse(message.body), currentUserAvatar);
 	});
 });
 
 
 let chatTable = document.querySelector(".chat-table");
-function displayMessage(message) {
+function displayMessage(message, currentAvatar) {
 	let newMessage = chatTable.insertRow().insertCell();
+	
+	if (currentAvatar == message.author)
+		newMessage.classList.add("owner-chat");
+		
 	newMessage.classList.add("chat-message");
 	let author = document.createElement("span");
 	author.classList.add("chat-message__author");

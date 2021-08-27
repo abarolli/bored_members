@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/").permitAll()
 			.antMatchers("/app/**").authenticated()
+			.antMatchers("/member/**").authenticated()
 			.and()
 			.formLogin()
 			.loginPage("/authentication/loginMember")
@@ -44,7 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logout().permitAll()
 			.and()
 			.exceptionHandling().accessDeniedPage("/access-denied");
-		
 	}
 	
 	//beans
