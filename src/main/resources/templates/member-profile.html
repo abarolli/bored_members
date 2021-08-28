@@ -14,9 +14,9 @@
 </head>
 <body class="prevent-animation">
 	
-	<header th:include="basic_template :: main_header (member=${member})"></header>
+	<header th:include="basic_template :: main_header (memberService=${memberService})"></header>
 	
-	<div hidden class="user-avatar-name" th:text="${member.avatarName}"></div>
+	<div hidden class="user-avatar-name" th:text="${session.user.avatarName}"></div>
 	
 	<section class="grid grid--1x2 container container--center profile-controls">
 		<section class="profile-controls__controls">

@@ -23,10 +23,9 @@ public class MemberController {
 	}
 
 	@GetMapping("/profile")
-	public String getProfile(Model model, Principal principal) {
+	public String getProfile(Model model) {
 		
-		Member member = memberService.getMemberByName(principal.getName());
-		model.addAttribute("member", member);
+		model.addAttribute("memberService", memberService);
 		return "member-profile";
 	}
 }

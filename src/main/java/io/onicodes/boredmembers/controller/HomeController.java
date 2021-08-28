@@ -17,14 +17,9 @@ public class HomeController {
 	private MemberService memberService;
 	
 	@GetMapping("/")
-	public String home(Principal principal, Model model) {
+	public String home(Model model) {
 		
-		if (principal != null) {
-			Member member = memberService.getMemberByName(principal.getName());
-			model.addAttribute("member", member);
-		}
-		else
-			model.addAttribute("member", null);
+		model.addAttribute("memberService", memberService);
 		
 		return "index";
 	}

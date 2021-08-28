@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.onicodes.boredmembers.entity.Message;
-import io.onicodes.boredmembers.messagemodels.AuthoredChatMessage;
+import io.onicodes.boredmembers.model.message.AuthoredChatMessage;
 import io.onicodes.boredmembers.service.BoredRoomService;
 
 @RestController

@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import io.onicodes.boredmembers.dao.BoredRoomDAO;
 import io.onicodes.boredmembers.entity.BoredRoom;
 import io.onicodes.boredmembers.entity.Member;
-import io.onicodes.boredmembers.messagemodels.ChatMessage;
 import io.onicodes.boredmembers.model.BoredRoomModel;
+import io.onicodes.boredmembers.model.message.ChatMessage;
 import io.onicodes.boredmembers.service.BoredRoomService;
 import io.onicodes.boredmembers.service.MemberService;
 
@@ -30,31 +30,35 @@ import io.onicodes.boredmembers.service.MemberService;
 @RequestMapping("/app")
 public class AppController {
 	
-	@Autowired
 	private BoredRoomDAO roomDao;
 	
-	@Autowired
 	private BoredRoomService roomService;
 	
-	@Autowired
 	private MemberService memberService;
 	
-	@GetMapping("/rooms")
-	public String showRooms(Model model, Principal principal) {
-		
-		model.addAttribute("rooms", roomDao.getAllBoredRooms());
-		model.addAttribute("memberService", memberService);
-		model.addAttribute("member", memberService.getMemberByName(principal.getName()));
-		
-		return "public-rooms";
+	@Autowired
+	public AppController(BoredRoomDAO roomDao, BoredRoomService roomService, MemberService memberService) {
+		super();
+		this.roomDao = roomDao;
+		this.roomService = roomService;
+		this.memberService = memberService;
 	}
 	
 	
+	@GetMapping("/rooms")
+	public String showRooms(Model model) {
+		
+		model.addAttribute("rooms", roomDao.getAllBoredRooms());
+		model.addAttribute("memberService", memberService);
+		
+		return "public-rooms";
+	}
+
 	@GetMapping("/createNewRoom")
-	public String showCreateRoomForm(Model model, Principal principal) {
+	public String showCreateRoomForm(Model model) {
 		
 		model.addAttribute("room", new BoredRoomModel());
-		model.addAttribute("member", memberService.getMemberByName(principal.getName()));
+		model.addAttribute("memberService", memberService);
 		return "create-room-form";
 	}
 	
@@ -70,10 +74,10 @@ public class AppController {
 	}
 	
 	@GetMapping("/rooms/{id}")
-	public String enterRoom(Model model, @PathVariable("id") Integer id, Principal principal) {
+	public String enterRoom(Model model, @PathVariable("id") Integer id) {
 		BoredRoom room = roomService.getBoredRoomById(id);
 		model.addAttribute("messages", roomService.getAllMessages(room));
-		model.addAttribute("member", memberService.getMemberByName(principal.getName()));
+		model.addAttribute("memberService", memberService);
 		
 		return "chat-room";
 	}

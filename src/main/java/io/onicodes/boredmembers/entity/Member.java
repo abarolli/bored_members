@@ -3,10 +3,12 @@ package io.onicodes.boredmembers.entity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,12 +18,22 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Table(name="members")
-public class Member {
+@Component
+public class Member implements UserDetails {
     
+	
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id")
@@ -40,7 +52,7 @@ public class Member {
         CascadeType.MERGE,
         CascadeType.PERSIST,
         CascadeType.REFRESH
-    }, fetch=FetchType.LAZY)
+    }, fetch=FetchType.EAGER)
     @JoinTable(
         name="member_roles",
         joinColumns=@JoinColumn(name="member_id"),
@@ -52,7 +64,7 @@ public class Member {
         CascadeType.MERGE,
         CascadeType.PERSIST,
         CascadeType.REFRESH
-    }, fetch=FetchType.EAGER)
+    }, fetch=FetchType.LAZY)
     @JoinTable(
         name="member_room_memberships",
         joinColumns=@JoinColumn(name="member_id"),
@@ -69,14 +81,7 @@ public class Member {
 
     public Member() {}
 
-    public Member(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-    
-
     public Member(String username, String password, String avatarName) {
-		super();
 		this.username = username;
 		this.password = password;
 		this.avatarName = avatarName;
@@ -94,7 +99,6 @@ public class Member {
         this.memberships = memberships;
         this.roles = roles;
     }
-
 
     public int getId() {
         return id;
@@ -117,6 +121,7 @@ public class Member {
     }
 
     public List<BoredRoom> getMemberships() {
+
         return memberships;
     }
 
@@ -142,6 +147,35 @@ public class Member {
 
 	public void setAvatarName(String avatarName) {
 		this.avatarName = avatarName;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return mapRolesToAuthorities(roles);
+	}
+
+	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+	}
+	
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
     
     

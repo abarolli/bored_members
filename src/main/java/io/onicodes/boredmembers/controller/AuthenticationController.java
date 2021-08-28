@@ -47,7 +47,8 @@ public class AuthenticationController {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@Valid @ModelAttribute("member") MemberModel member,
-			BindingResult validationResults) throws IOException {
+			BindingResult validationResults,
+			Model model) throws IOException {
 		
 		if (validationResults.hasErrors()) {
 			return "register";

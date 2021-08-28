@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import io.onicodes.boredmembers.entity.BoredRoom;
 import io.onicodes.boredmembers.entity.Member;
 import io.onicodes.boredmembers.entity.Message;
-import io.onicodes.boredmembers.messagemodels.AuthoredChatMessage;
-import io.onicodes.boredmembers.messagemodels.ChatMessage;
+import io.onicodes.boredmembers.model.message.AuthoredChatMessage;
+import io.onicodes.boredmembers.model.message.ChatMessage;
 import io.onicodes.boredmembers.service.BoredRoomService;
 import io.onicodes.boredmembers.service.MemberService;
 

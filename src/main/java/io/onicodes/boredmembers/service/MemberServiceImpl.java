@@ -1,16 +1,12 @@
 package io.onicodes.boredmembers.service;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -62,11 +58,7 @@ public class MemberServiceImpl implements MemberService {
 		if (member == null)
 			throw new UsernameNotFoundException("Invalid username or password");
 			
-		return new User(member.getUsername(), member.getPassword(), mapRolesToAuthorities(member.getRoles()));
-	}
-	
-	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+		return member;
 	}
 
 	@Override
@@ -138,4 +130,20 @@ public class MemberServiceImpl implements MemberService {
 		return !isAMember.isEmpty();
 	}
 
+	
+	@Override
+	@Transactional
+	public List<BoredRoom> getMemberships(Member member) {
+		
+		String queryStr = """
+			select m.memberships
+			from Member m
+			where m.id = :id
+		""";
+		Session session = factory.unwrap(Session.class);
+		return session
+			   .createQuery(queryStr)
+			   .setParameter("id", member.getId())
+			   .getResultList();
+	}
 }

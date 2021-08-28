@@ -10,7 +10,7 @@
     <link rel="stylesheet" th:href="@{https://unpkg.com/aos@next/dist/aos.css}" />
 </head>
 <body class="prevent-animation">
-    <header th:include="basic_template :: main_header (member=${member})"></header>
+    <header th:include="basic_template :: main_header (memberService=${memberService})"></header>
     
     <main>
     	
@@ -30,8 +30,8 @@
 	                <td th:attr="data-id=${room.id}" class="table__row__data" th:text="${room.name}"></td>
 	                <td th:attr="data-id=${room.id}" class="table__row__data table__row__data__description" th:text="${room.description}"></td>
 	                <td class="td--center">
-			               	<button th:if="${memberService.isAlreadyMemberOf(member, room)}" class="join-leave-btn leave-btn btn btn--pink" th:attr="data-id=${room.id}">Leave</button>
-			               	<button th:if="${!memberService.isAlreadyMemberOf(member, room)}" class="join-leave-btn join-btn btn btn--primary" th:attr="data-id=${room.id}">Join</button>
+			               	<button th:if="${memberService.isAlreadyMemberOf(session.user, room)}" class="join-leave-btn leave-btn btn btn--pink" th:attr="data-id=${room.id}">Leave</button>
+			               	<button th:if="${!memberService.isAlreadyMemberOf(session.user, room)}" class="join-leave-btn join-btn btn btn--primary" th:attr="data-id=${room.id}">Join</button>
 	                </td>
 	            </tr>
 	            <tr>

@@ -1,4 +1,4 @@
-package io.onicodes.boredmembers.messagemodels;
+package io.onicodes.boredmembers.model.message;
 
 public class AuthoredChatMessage extends ChatMessage {
 	

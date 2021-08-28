@@ -14,7 +14,7 @@
 		<a th:replace="basic_template :: main_logo"></a>
 	</nav>
 
-    <header th:fragment="main_header (member)">
+    <header th:fragment="main_header (memberService)">
         <nav class="nav">
             <a th:fragment="main_logo" th:href="@{/}">
                 <div class="logo-container">
@@ -40,7 +40,7 @@
 	                </li>
 	                <li class="list__item" sec:authorize="isAuthenticated()">
 	                	<a class="nav__list-link" th:href="@{/member/profile/}"
-	                		th:text="${#authentication.getPrincipal().getUsername()}" ></a>
+	                		th:text="${session.user.username}" ></a>
 	                </li>
 	                <li class="list__item logout" sec:authorize="isAuthenticated()">
 	                	<form th:action="@{/logout}" method="POST">
@@ -81,8 +81,11 @@
                         </svg>
                     </header>
                     <article class="collapsible__content">
+                    	<div hidden th:text="${session.user?.username}"></div>
                         <ul th:fragment="subscription-list" class="list" id="subscription-content">
-                            <li th:class="'list__item subscribed-to-' + ${room.id}" th:each="room : ${member?.memberships}">
+                            <li
+                            	sec:authorize="isAuthenticated()"
+                            	th:class="'list__item subscribed-to-' + ${room.id}" th:each="room : ${memberService.getMemberships(session.user)}">
                             	<a th:attr="data-id=${room.id}" th:href="@{'/app/rooms/' + ${room.id}}" th:text="${room.name}"></a>
                             </li>
                         </ul>
