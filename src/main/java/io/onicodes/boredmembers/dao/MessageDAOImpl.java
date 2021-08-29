@@ -25,9 +25,7 @@ public class MessageDAOImpl implements MessageDAO {
     @Override
     public Message getMessageById(int id) {
         Session session = factory.unwrap(Session.class);
-//        session.beginTransaction();
         Message message = session.get(Message.class, id);
-//        session.getTransaction().commit();
         return message;
     }
 

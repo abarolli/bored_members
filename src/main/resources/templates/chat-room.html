@@ -17,29 +17,29 @@
     
     <div hidden class="user-avatar-name" th:text="${session.user.avatarName}"></div>
     
-    <table class="chat-table container container--center">
-    	<tr th:each="message : ${messages}">
-    		<td th:if="${message.member.username == session.user.username}" class="chat-message owner-chat" th:inline="text">
-    			<span class="chat-message__author">[[${message.member.avatarName}]]</span>
-    			<br>
-    			<span class="chat-message__content">[[${message.contents}]]</span>
-    		</td>
-    		<td th:if="${message.member.username != session.user.username}" class="chat-message" th:inline="text">
-    			<span class="chat-message__author">[[${message.member.avatarName}]]</span>
-    			<br>
-    			<span class="chat-message__content">[[${message.contents}]]</span>
-    		</td>
-    	</tr>
-    </table>
+    <section class="profile-controls">
+	    <form th:action="." method="POST" class="chat-form">
+		    <table class="chat-table container container--center">
+		    	<tr th:each="message : ${messages}">
+		    		<td th:if="${message.member.username == session.user.username}" class="chat-message owner-chat" th:inline="text">
+		    			<span class="chat-message__author">[[${message.member.avatarName}]]</span>
+		    			<br>
+		    			<span class="chat-message__content">[[${message.contents}]]</span>
+		    			<span class="chat-message__trash-icon" th:attr="data-id=${message.id}"></span>
+		    		</td>
+		    		<td th:if="${message.member.username != session.user.username}" class="chat-message" th:inline="text">
+		    			<span class="chat-message__author">[[${message.member.avatarName}]]</span>
+		    			<br>
+		    			<span class="chat-message__content">[[${message.contents}]]</span>
+		    		</td>
+		    	</tr>
+		    </table>
+	    </form>
+    </section>
 
     <textarea name="chat-input" id="chat-input" placeholder="Type here" ></textarea>
     
     <script th:src="@{/scripts/main.js}"></script>
     <script th:src="@{/scripts/chat-script.js}"></script>
-    <script th:src="@{/scripts/animateActions.js}"></script>
-    <script th:src="@{https://unpkg.com/aos@next/dist/aos.js}"></script>
-    <script>
-      AOS.init();
-    </script>  
 </body>
 </html>
