@@ -35,12 +35,8 @@
 	
 	<textarea name="chat-input" id="chat-input" placeholder="Type here" ></textarea>
 	
-	<script th:src="@{/scripts/chat-script-profile.js}"></script>
+	<script type="module" th:src="@{/scripts/profile-chat-script.js}"></script>
 	<script th:src="@{/scripts/main.js}"></script>
-    <script th:src="@{/scripts/animateActions.js}"></script>
-    <script th:src="@{https://unpkg.com/aos@next/dist/aos.js}"></script>
-    <script>
-      AOS.init();
-    </script>
+
 </body>
 </html>

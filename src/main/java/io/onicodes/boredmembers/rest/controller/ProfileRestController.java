@@ -25,6 +25,7 @@ public class ProfileRestController {
 	@GetMapping("/room/{roomId}")
 	public List<AuthoredChatMessage> sendRoomContent(@PathVariable("roomId") String id) {
 		
+		System.out.println("Sending messages for room: " + id);
 		List<Message> messages = roomService
 								 .getBoredRoomById(Integer.parseInt(id))
 								 .getMessages();

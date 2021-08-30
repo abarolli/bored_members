@@ -85,7 +85,8 @@
                         <ul th:fragment="subscription-list" class="list" id="subscription-content">
                             <li
                             	sec:authorize="isAuthenticated()"
-                            	th:class="'list__item subscribed-to-' + ${room.id}" th:each="room : ${memberService.getMemberships(session.user)}">
+                            	th:class="list__item" 
+                            	th:each="room : ${memberService.getMemberships(session.user)}">
                             	<a th:attr="data-id=${room.id}" th:href="@{'/app/rooms/' + ${room.id}}" th:text="${room.name}"></a>
                             </li>
                         </ul>

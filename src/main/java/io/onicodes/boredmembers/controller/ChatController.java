@@ -36,7 +36,7 @@ public class ChatController {
 		BoredRoom room = roomService.getBoredRoomById(roomId);
 		Member member = memberService.getMemberByName(principal.getName());
 		
-		memberService.sendMessageToRoom(member, message.getContent(), room);
-		return new AuthoredChatMessage(member.getAvatarName(), message.getContent(), message.getId());
+		Message authoredMessage = memberService.sendMessageToRoom(member, message.getContent(), room);
+		return new AuthoredChatMessage(member.getAvatarName(), message.getContent(), authoredMessage.getId());
 	}
 }

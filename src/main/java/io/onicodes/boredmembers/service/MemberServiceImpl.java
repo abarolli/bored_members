@@ -75,12 +75,13 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	@Transactional
-	public void sendMessageToRoom(Member member, String messageStr, BoredRoom room) {
+	public Message sendMessageToRoom(Member member, String messageStr, BoredRoom room) {
 		
 		
 		Message message = new Message(messageStr, member, room, new Date());
 		messageDao.saveMessage(message);
 		System.out.println(message.getContents());
+		return message;
 	}
 
 

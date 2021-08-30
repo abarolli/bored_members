@@ -17,9 +17,9 @@
     
     <div hidden class="user-avatar-name" th:text="${session.user.avatarName}"></div>
     
-    <section class="profile-controls">
+    <section class="profile-controls container container--center">
 	    <form th:action="." method="POST" class="chat-form">
-		    <table class="chat-table container container--center">
+		    <table class="chat-table">
 		    	<tr th:each="message : ${messages}">
 		    		<td th:if="${message.member.username == session.user.username}" class="chat-message owner-chat" th:inline="text">
 		    			<span class="chat-message__author">[[${message.member.avatarName}]]</span>
@@ -40,6 +40,6 @@
     <textarea name="chat-input" id="chat-input" placeholder="Type here" ></textarea>
     
     <script th:src="@{/scripts/main.js}"></script>
-    <script th:src="@{/scripts/chat-script.js}"></script>
+    <script type="module" th:src="@{/scripts/chat-script.js}"></script>
 </body>
 </html>
