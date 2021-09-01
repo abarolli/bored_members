@@ -38,6 +38,9 @@
 	                        </li>
 	                    </ul>
 	                </li>
+	                <li class="list__item">
+	                	<a th:href="@{/app/workflowStation/}" class="nav__list-link">Workflow Station</a>
+	                </li>
 	                <li class="list__item" sec:authorize="isAuthenticated()">
 	                	<a class="nav__list-link" th:href="@{/member/profile/}"
 	                		th:text="${session.user.username}" ></a>
@@ -86,7 +89,8 @@
                             <li
                             	sec:authorize="isAuthenticated()"
                             	th:class="list__item" 
-                            	th:each="room : ${memberService.getMemberships(session.user)}">
+                            	th:each="room : ${memberService.getMemberships(session.user)}"
+                            	th:attr="data-id=${room.id}">
                             	<a th:attr="data-id=${room.id}" th:href="@{'/app/rooms/' + ${room.id}}" th:text="${room.name}"></a>
                             </li>
                         </ul>

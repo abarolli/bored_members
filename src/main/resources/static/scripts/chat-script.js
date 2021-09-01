@@ -31,6 +31,7 @@ window.onload = e => chatTable.init();
 let chatInput = document.querySelector("#chat-input");
 chatInput.addEventListener("keypress", e => {
 	if (e.key == "Enter" && chatInput.value.trim() != "") {
+		e.preventDefault();
 		socketConnection.sendMessage(chatInput.value);
 		chatInput.value = "";
 	}

@@ -83,7 +83,7 @@ function joinRoomElseLeave(e) {
 			
 			let newSub = document.createElement("li");
 			newSub.classList.add("list__item");
-			newSub.classList.add(`subscribed-to-${roomId}`);
+			newSub.setAttribute("data-id", roomId);
 			let newSubLink = document.createElement("a");
 			newSubLink.href = getNewRoomLink(roomId);
 			newSubLink.innerText = data.roomName;
@@ -96,7 +96,7 @@ function joinRoomElseLeave(e) {
 			actionBtn.innerText = "Join";
 			
 			for (let child of subscriptionContent.children) {
-				if (child.classList.contains(`subscribed-to-${roomId}`)) {
+				if (child.dataset.id == roomId) {
 					child.remove();
 					break;
 				}

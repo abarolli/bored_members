@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/normalize.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+</head>
+<body class="prevent-animation">
+	<header th:include="basic_template :: main_header (memberService=${memberService})"></header>
+	
+	<canvas width="500" height="500" id="workflow-canvas"></canvas>
+	
+	<p>TextBox</p>
+	<input type="checkbox" name="component-type" value="text-box" />
+	<script th:src="@{/scripts/main.js}"></script>
+	<script th:src="@{/scripts/workflow.js/}"></script>
+</body>
+</html>

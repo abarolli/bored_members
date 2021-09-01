@@ -44,6 +44,7 @@ memberSubscriptions.forEach(sub => {
 let chatInput = document.querySelector("#chat-input");
 chatInput.addEventListener("keypress", e => {
 	if (e.key == "Enter" && chatInput.value.trim() != "") {
+		e.preventDefault();
 		socket.sendMessage(chatInput.value);
 		chatInput.value = "";
 	}

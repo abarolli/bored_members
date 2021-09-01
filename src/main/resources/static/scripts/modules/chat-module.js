@@ -100,7 +100,7 @@ class ChatTable {
 			trashUi.classList.add("chat-message__trash-icon");
 			trashUi.setAttribute("data-id", message.id);
 			
-			newMessage.addEventListener("click", e => {
+			trashUi.addEventListener("click", e => {
 				this.deleteMessage.call(this, e);
 			})
 			newMessage.appendChild(trashUi);	

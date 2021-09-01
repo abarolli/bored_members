@@ -15,8 +15,11 @@
     <main>
     	
     <section class="full-viewport full-viewport--flex-column">
-        <section class="filters">
-        	
+        <section class="filters container container--center">
+        	<h2>Public Rooms</h2>
+        	<a th:href="@{/app/createNewRoom/}" id="create-new-room-btn" class="btn btn--outline">
+       			<span>Create New Room</span>
+       		</a>
         </section>
 
         <form class="join-leave-form" th:action="." method="POST" >
@@ -34,15 +37,6 @@
 			               	<button th:if="${!memberService.isAlreadyMemberOf(session.user, room)}" class="join-leave-btn join-btn btn btn--primary" th:attr="data-id=${room.id}">Join</button>
 	                </td>
 	            </tr>
-	            <tr>
-	            	<td></td>
-	            	<td></td>
-	            	<td id="public-room-create-new">
-	            		<a th:href="@{/app/createNewRoom/}" id="create-new-room-btn" class="btn btn--outline">
-	            			<span>Create New Room</span>
-	            		</a>
-	           		</td>
-	           	</tr>
 	        </table>
         </form>
     </section>

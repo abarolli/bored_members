@@ -694,7 +694,16 @@ a:active {
 }
 
 .filters {
-    margin-top: 2rem;
+    padding: 2rem 2rem;
+    width: 100%;
+    position: sticky;
+    top: -5px;
+    background: #fff;
+    border-bottom: 1px solid var(--color-body);
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .table__row__data {
@@ -875,4 +884,14 @@ td {
 	font-size: 2rem;
 	color: rgba(135, 135, 135, 0.5);
 	font-weight: bolder;
+}
+
+
+
+/* Workflow station ================================= */
+#workflow-canvas {
+	height: 500px;
+	width: 500px;
+	background: red;
+	cursor: crosshair;
 }

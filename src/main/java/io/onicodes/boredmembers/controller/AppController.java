@@ -82,4 +82,12 @@ public class AppController {
 		return "chat-room";
 	}
 	
+	
+	@GetMapping("/workflowStation")
+	public String workflowStation(Model model) {
+		
+		model.addAttribute("memberService", memberService);
+		
+		return "workflow-station";
+	}
 }
