@@ -1,149 +1,121 @@
-let canvas = document.getElementById("workflow-canvas");
-console.log(canvas);
+
+let canvas = new fabric.Canvas("workflow-canvas");
+
+globalCanvasObjects = {
+	
+};
 
 
-
-if (canvas.getContext) {
-	let ctx = canvas.getContext("2d");
-	
-	let canvasX = canvas.getBoundingClientRect().x;
-	let canvasY = canvas.getBoundingClientRect().y;
-	console.log(canvasX, canvasY);
-	
-	const ContextFlags = {
-		isMouseReady: false,
-		isMouseDown: false,
-		isDrawingTextBox: false
-	};
-	
-	let pointerX, pointerY;
-	let onMouseDownX, onMouseDownY;
-	let GlobalCanvasObjects = {
-		textBoxes: [],
-		avatars: {}
-	};
-	
-	
-	let socket = new SockJS("/boredmembers_workflowsocket");
-	let stompClient = Stomp.over(socket);
-	
-	let username = "";
-	stompClient.connect({}, frame => {
-		console.log(frame);
-		username = frame.headers["user-name"];
-		stompClient.subscribe("/app/workflow", returnedGlobalCanvasObjects => {
-			console.log("recieved");
-			GlobalCanvasObjects = JSON.parse(returnedGlobalCanvasObjects.body);
-			console.log(GlobalCanvasObjects);
+let socket = new SockJS("/boredmembers_workflowsocket");
+let stompClient = Stomp.over(socket);
+stompClient.connect({}, frame => {
+	stompClient.subscribe("/app/workflow/add", message => {
+		let object = JSON.parse(message.body);
+		
+		let textboxAttributes = object.attributes;		
+		let textbox = new fabric.Textbox(textboxAttributes.text, {
+			width: textboxAttributes.width,
+			fontSize: textboxAttributes.fontSize,
+			backgroundColor: textboxAttributes.backgroundColor,
+			left: textboxAttributes.left,
+			top: textboxAttributes.top
 		});
 		
+		textbox.on("moving", options => {
+			stompClient.send(
+				"/boredrooms/workflow/update",
+				{},
+				JSON.stringify(
+					{
+						id: object.id,
+						attributes: {
+							height: textbox.height,
+							width: textbox.width,
+							fontSize: textbox.fontSize,
+							backgroundColor: textbox.backgroundColor,
+							left: textbox.left,
+							top: textbox.top
+						}
+					}
+				)
+			)
+		});
+		
+		globalCanvasObjects[object.id] = textbox;
+		console.log(globalCanvasObjects);
+		canvas.add(textbox);
+		canvas.setActiveObject(textbox);
 	});
 	
+	stompClient.subscribe("/app/workflow/update", message => {
+		let object = JSON.parse(message.body);
+		newObjectAttributes = object.attributes;
+		currentObjectState = globalCanvasObjects[object.id];
+		console.log(object.id);
+		currentObjectState.left = newObjectAttributes.left;
+		currentObjectState.top = newObjectAttributes.top;
+		canvas.renderAll();
+		currentObjectState.drawControls(canvas.getContext());
+	});
+});
+
+function initEventListeners() {
 	
-	function initEventListeners() {
-		canvas.addEventListener("mouseenter", e => {
-			console.log("mouseenter");
-			ContextFlags.isMouseReady = true;
-		});
-		
-		canvas.addEventListener("mouseleave", e => {
-			console.log("mouseleave");
-			ContextFlags.isMouseReady = false;
-		});
-		
-		canvas.addEventListener("mousemove", e => {
-			pointerX = Math.floor(e.clientX - canvasX);
-			pointerY = Math.floor(e.clientY - canvasY);
-			
-			GlobalCanvasObjects.avatars[username] = {"coords": []}
-			GlobalCanvasObjects.avatars[username].coords = [pointerX, pointerY];
-			stompClient.send(
-				"/boredrooms/workflow",
-				{},
-				JSON.stringify(GlobalCanvasObjects)
-			);
-		});
-		
-		
-		let textBoxCheckBox = document.querySelector("[value='text-box']");
-		textBoxCheckBox.addEventListener("click", e => {
-			ContextFlags.isDrawingTextBox = textBoxCheckBox.checked;
-		})
-		
-		canvas.addEventListener("mousedown", e => {
-			if (ContextFlags.isMouseReady) {
-				ContextFlags.isMouseDown = true;
-				onMouseDownX = Math.floor(e.clientX - canvasX);
-				onMouseDownY = Math.floor(e.clientY - canvasY);			
-			}
-		});
-		
-		canvas.addEventListener("mouseup", e => {
-			if (ContextFlags.isMouseDown && ContextFlags.isDrawingTextBox) {
-				GlobalCanvasObjects.textBoxes.push(new TextBox(onMouseDownX, onMouseDownY, pointerX - onMouseDownX, pointerY - onMouseDownY, ""));
-				stompClient.send(
-					"/boredrooms/workflow",
-					{},
-					JSON.stringify(GlobalCanvasObjects)
-				);
-			}
-			ContextFlags.isMouseDown = false;
-		});
-		
-		canvas.addEventListener("dblclick", e => {
-			
-		});
-	}
-	
-	function drawAllTextBoxes() {
-		GlobalCanvasObjects.textBoxes.forEach(box => {
-			ctx.strokeStyle = box.strokeColor;
-			ctx.strokeRect(box.x, box.y, box.width, box.height);	
-		});
-	}
-	
-	function drawAllAvatars() {
-		for (let avatar in GlobalCanvasObjects.avatars) {
-			let [x, y] = GlobalCanvasObjects.avatars[avatar].coords;
-			ctx.fillText(avatar, x, y + 20);
-			
-			if (username != avatar) {
-				ctx.beginPath();
-				ctx.moveTo(x, y + 10);
-				ctx.lineTo(x, y);
-				ctx.lineTo(x + 10, y);
-				ctx.stroke();
-			}
+	function generateId() {
+		let id = 0;
+		while (true) {
+			if (!(id in globalCanvasObjects))
+				return id;
+			++id;
 		}
 	}
 	
-	class TextBox {
-		constructor(x, y, width, height, content) {
-			this.x = x;
-			this.y = y;
-			this.height = height;
-			this.width = width;
-			this.strokeColor = "blue";
-			this.content = content;
-		}
-	}
+	let addTextboxBtn = document.getElementById("add-textbox-btn");
+	addTextboxBtn.addEventListener("click", e => {
+		let textBoxId = generateId();
+		
+		stompClient.send(
+			"/boredrooms/workflow/add",
+			{},
+			JSON.stringify(
+				{
+					id: textBoxId,
+					attributes: {
+						width: 125,
+						fontSize: 20,
+						backgroundColor: "lightblue",
+						left: 5,
+						top: 5,
+						text: "Add text here"
+					}
+				}
+			)
+		);
+	});
 	
-	function loop() {
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+	let addArrowBtn = document.getElementById("add-arrow-btn");
+	addArrowBtn.addEventListener("click", e => {
+		let arrowId = generateId();
 		
-		drawAllTextBoxes();
-		
-		drawAllAvatars();
-		
-		if (ContextFlags.isMouseDown) {
-			console.log("ReadY");
-			ctx.strokeRect(onMouseDownX, onMouseDownY, pointerX - onMouseDownX, pointerY - onMouseDownY);
-		}
-		
-		
-		requestAnimationFrame(loop);
-	}
-	
-	initEventListeners();
-	loop();
+		/*stompClient.send(
+			"/boredrooms/workflow/add",
+			{},
+			JSON.stringify(
+				{
+					id: arrowId,
+					attributes: {
+						
+					}
+				}
+			)
+		)*/
+		console.log("line clicked");
+		let line = new fabric.Line({
+			width: 20,
+			height:5,
+		});
+		canvas.add(line);
+	});
 }
+
+initEventListeners();

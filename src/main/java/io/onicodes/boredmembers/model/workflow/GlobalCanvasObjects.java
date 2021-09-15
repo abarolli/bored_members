@@ -1,33 +1,25 @@
 package io.onicodes.boredmembers.model.workflow;
 
+import java.util.List;
 import java.util.Map;
+
 
 public class GlobalCanvasObjects {
 	
-	private TextBox[] textBoxes;
-	private Map<String, Avatar> avatars;
+	private String canvasState;
 	
 	public GlobalCanvasObjects() {}
 
-	public GlobalCanvasObjects(TextBox[] textBoxes, Map<String, Avatar> avatars) {
-		this.textBoxes = textBoxes;
-		this.avatars = avatars;
+	public GlobalCanvasObjects(String canvasState) {
+		this.canvasState = canvasState;
 	}
 
-	public TextBox[] getTextBoxes() {
-		return textBoxes;
+	public String getCanvasState() {
+		return canvasState;
 	}
 
-	public void setTextBoxes(TextBox[] textBoxes) {
-		this.textBoxes= textBoxes;
+	public void setCanvasState(String canvasState) {
+		this.canvasState = canvasState;
 	}
-
-	public Map<String, Avatar> getAvatars() {
-		return avatars;
-	}
-
-	public void setAvatars(Map<String, Avatar> avatars) {
-		this.avatars = avatars;
-	}
-
+	
 }
