@@ -14,7 +14,7 @@
 	<name>boredmembers</name>
 	<description>A chat application for business minds</description>
 	<properties>
-		<java.version>16</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
